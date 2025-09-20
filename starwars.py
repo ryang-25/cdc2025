@@ -56,7 +56,7 @@ def bar_counts_streamlit(df: pd.DataFrame, col: str, title: str):
     st.caption("Y-axis is in thousands.")
 
 # Use the function for each column
-bar_counts_streamlit(df, "fav_hero", "Hero Choices")
+bar_counts_streamlit(df, "fav_heroe", "Hero Choices")
 bar_counts_streamlit(df, "fav_villain", "Villain Choices")
 bar_counts_streamlit(df, "fav_film", "Film Choices")
 bar_counts_streamlit(df, "fav_soundtrack", "Soundtrack Choices")
