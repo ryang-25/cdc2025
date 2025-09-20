@@ -1,2 +1,4 @@
-
 env/
+*.svg
+*.pickle
+.DS_Store
