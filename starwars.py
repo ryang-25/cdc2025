@@ -1,12 +1,21 @@
 import streamlit as st
 import pandas as pd
 
+if "page" not in st.session_state:
+    st.session_state.page = "preferences"  # start page
+if "prefs" not in st.session_state:
+    st.session_state.prefs = None
+
 def load_and_clean_data():
     df = pd.read_csv('Pop_culture.csv')
     
     df = df.rename(columns={
         "fav_heroe": "fav_hero"  # correct the spelling
     })
+
+    if "fav_soundtrack" in df.columns:
+        df["fav_soundtrack"] = df["fav_soundtrack"].str.strip()
+        df["fav_soundtrack"] = df["fav_soundtrack"].str.replace("Accross the Stars", "Across the Stars")
 
     categories = ["fav_hero","fav_villain","fav_film","fav_soundtrack","fav_spaceship","fav_planet","fav_robot"]
     # Clean + standardize data
@@ -15,22 +24,34 @@ def load_and_clean_data():
 def get_user_preferences(df, categories):
     st.header("Compare your Star Wars favorites!")
     user_prefs = {}
-    for col in categories:
-        if col.endswith('_id'):
-            continue # Skip ID columns
+    with st.form('preferences_form'):
+        for col in categories:
+            if col.endswith('_id'):
+                continue # Skip ID columns
         
         # Grab unique options for each category
-        options = sorted(df[col].dropna().unique())
-        user_prefs[col] = st.selectbox(f"Select your favorite {col.replace('fav_', '').replace('_', ' ')}:", options)
-    return user_prefs
+            options = sorted(df[col].dropna().unique())
+            user_prefs[col] = st.selectbox(f"Select your favorite {col.replace('fav_', '').replace('_', ' ')}:", options)
+        
+        submitted = st.form_submit_button("Submit")
+    if submitted:
+        st.session_state.prefs = user_prefs
+        st.session_state.page = "dashboard"
+    else:
+        return None
+
+def dashboard_page(df, prefs):
+    st.header("Star Wars Favorites Dashboard")
+    
 
 def main():
     df, categories = load_and_clean_data()
-    prefs = get_user_preferences(df, categories)
+    if st.session_state.page == "preferences":
+        prefs = get_user_preferences(df, categories)
+    else:
+        prefs = st.session_state.get("prefs", None)
+        dashboard_page(df, prefs)
 
-    print("\n✅ User preferences:")
-    for k, v in prefs.items():
-        print(f"{k}: {v}")
 
 if __name__ == "__main__":
     main()
