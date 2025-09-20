@@ -35,6 +35,7 @@ def main():
 if __name__ == "__main__":
     main()
 
+df = pd.read_csv("Pop_Culture.csv") 
     # Reusable function for each category
 def bar_counts_streamlit(df: pd.DataFrame, col: str, title: str):
     # Count responses in this column
