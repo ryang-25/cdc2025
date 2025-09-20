@@ -40,7 +40,32 @@ numbers = [1,2,3,4,5,6,7,8,9,10]
 fav_hero = df['fav_hero']
 st.bar_chart(data = fav_hero, x=options, y= numbers, x_label = "Hero Choices", y_label = "Amount of Inputs (In Thousands)", color=None, horizontal=False, stack=None, width=None, height=None, use_container_width=True)
 
+options = sorted(df[col].dropna().unique())
+numbers = [1,2,3,4,5,6,7,8,9,10]
+fav_villain = df['fav_villain']
+st.bar_chart(data = fav_villain, x=options, y= numbers, x_label = "Villain Choices", y_label = "Amount of Inputs (In Thousands)", color=None, horizontal=False, stack=None, width=None, height=None, use_container_width=True)
 
+options = sorted(df[col].dropna().unique())
+numbers = [1,2,3,4,5,6,7,8,9,10]
+fav_film = df['fav_film']
+st.bar_chart(data = fav_film, x=options, y= numbers, x_label = "Film Choices", y_label = "Amount of Inputs (In Thousands)", color=None, horizontal=False, stack=None, width=None, height=None, use_container_width=True)
 
+options = sorted(df[col].dropna().unique())
+numbers = [1,2,3,4,5,6,7,8,9,10]
+fav_soundtrack = df['fav_soundtrack']
+st.bar_chart(data = fav_soundtrack, x=options, y= numbers, x_label = "Soundtrack Choices", y_label = "Amount of Inputs (In Thousands)", color=None, horizontal=False, stack=None, width=None, height=None, use_container_width=True)
 
+options = sorted(df[col].dropna().unique())
+numbers = [1,2,3,4,5,6,7,8,9,10]
+fav_spaceship = df['fav_spaceship']
+st.bar_chart(data = fav_spaceship, x=options, y= numbers, x_label = "Spaceship Choices", y_label = "Amount of Inputs (In Thousands)", color=None, horizontal=False, stack=None, width=None, height=None, use_container_width=True)
 
+options = sorted(df[col].dropna().unique())
+numbers = [1,2,3,4,5,6,7,8,9,10]
+fav_planet = df['fav_planet']
+st.bar_chart(data = fav_planet, x=options, y= numbers, x_label = "Planet Choices", y_label = "Amount of Inputs (In Thousands)", color=None, horizontal=False, stack=None, width=None, height=None, use_container_width=True)
+
+options = sorted(df[col].dropna().unique())
+numbers = [1,2,3,4,5,6,7,8,9,10]
+fav_robot = df['fav_robot']
+st.bar_chart(data = fav_robot, x=options, y= numbers, x_label = "Robot Choices", y_label = "Amount of Inputs (In Thousands)", color=None, horizontal=False, stack=None, width=None, height=None, use_container_width=True)
