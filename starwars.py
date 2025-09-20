@@ -35,20 +35,26 @@ def main():
 if __name__ == "__main__":
     main()
 
-def bar_counts_streamlit(df, col, title):
-    # Count choices
+    # Reusable function for each category
+def bar_counts_streamlit(df: pd.DataFrame, col: str, title: str):
+    # Count responses in this column
     counts = df[col].value_counts(dropna=False).rename_axis(col).reset_index(name="count")
-    # Scale to thousands for single-digit axis
+
+    # Scale counts to thousands so the axis reads 1, 2, 3...
     counts["thousands"] = counts["count"] / 1000.0
-    # Sort by count (optional)
+
+    # Sort for nicer bars
     counts = counts.sort_values("count", ascending=False)
 
-    # Index = categories, y = numbers in thousands
+    # Set index = category so Streamlit uses it as x-axis
     counts = counts.set_index(col)
+
+    # Display
     st.subheader(title)
     st.bar_chart(data=counts, y="thousands", use_container_width=True)
     st.caption("Y-axis is in thousands.")
 
+# Use the function for each column
 bar_counts_streamlit(df, "fav_hero", "Hero Choices")
 bar_counts_streamlit(df, "fav_villain", "Villain Choices")
 bar_counts_streamlit(df, "fav_film", "Film Choices")
