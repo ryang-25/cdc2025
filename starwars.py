@@ -35,7 +35,7 @@ def main():
 if __name__ == "__main__":
     main()
 
-options = sorted(df[col].dropna().unque())
+options = sorted(df[col].dropna().unique())
 numbers = [1,2,3,4,5,6,7,8,9,10]
 fav_hero = df['fav_hero']
 st.bar_chart(data = fav_hero, x=options, y= numbers, x_label = "Hero Choices", y_label = "Amount of Inputs (In Thousands)", color=None, horizontal=False, stack=None, width=None, height=None, use_container_width=True)
