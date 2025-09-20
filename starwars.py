@@ -1,11 +1,40 @@
+import streamlit as st
 import pandas as pd
 
 def load_and_clean_data():
     df = pd.read_csv('Pop_culture.csv')
     
-    categories = ["review_id","fav_heroe","fav_villain","fav_film","fav_soundtrack","fav_spaceship","fav_planet","fav_robot"]
-    # Clean data
+    df = df.rename(columns={
+        "fav_heroe": "fav_hero"  # correct the spelling
+    })
+
+    categories = ["fav_hero","fav_villain","fav_film","fav_soundtrack","fav_spaceship","fav_planet","fav_robot"]
+    # Clean + standardize data
+    return df, categories
+
+def get_user_preferences(df, categories):
+    st.header("Compare your Star Wars favorites!")
+    user_prefs = {}
     for col in categories:
-        df[col] = df[col].str.strip().str.lower().str.replace(' ', '_', regex=False)
+        if col.endswith('_id'):
+            continue # Skip ID columns
+        
+        # Grab unique options for each category
+        options = sorted(df[col].dropna().unique())
+        user_prefs[col] = st.selectbox(f"Select your favorite {col.replace('fav_', '').replace('_', ' ')}:", options)
+    return user_prefs
+
+def main():
+    df, categories = load_and_clean_data()
+    prefs = get_user_preferences(df, categories)
+
+    print("\n✅ User preferences:")
+    for k, v in prefs.items():
+        print(f"{k}: {v}")
+
+if __name__ == "__main__":
+    main()
+
+
 
 
