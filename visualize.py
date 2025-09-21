@@ -4,7 +4,7 @@ import random
 
 import pandas as pd
 import networkx as nx
-import numpy as np
+# Copied from ChatGPT
 import plotly.graph_objects as go
 
 from datasketch import MinHashLSHForest, MinHash
@@ -13,6 +13,8 @@ from networkx.algorithms import community
 FILE_NAME = 'Pop_Culture.csv'
 MIN_SIM = 0.15
 NUM_PERM = 128
+
+# The number of edges to include.
 TOP_K = 5
 
 MAX_NODES_DRAW = 5_000
@@ -104,6 +106,7 @@ if NEW_GRAPH:
     cu, cv = G.nodes[u]['cluster'], G.nodes[v]['cluster']
     if cu == cv:
       continue
+    # Copied from ChatGPT
     if MG.has_edge(cu, cv):
       MG[cu][cv]['weight'] += 1
     else:
@@ -114,6 +117,7 @@ if NEW_GRAPH:
   pos_mg = nx.spring_layout(MG, weight='weight')
 
   # Arrange nodes around central position
+  # Copied from ChatGPT
   for m in pos_mg:
     mx, my = pos_mg[m]
     # Small radius
@@ -142,7 +146,7 @@ nodes = list(G.nodes())
 subgraph_nodes = random.sample(nodes, min(len(nodes), MAX_NODES_DRAW))
 H = nx.Graph(G.subgraph(subgraph_nodes))
 
-H.remove_nodes_from(list(nx.isolates(H)))
+H.remove_nodes_from(list(nx.isolates(H))) # Prune orphans
 
 # edges = list(H.edges())
 # subgraph_edges = random.sample(edges, min(len(edges), MAX_EDGES_DRAW))
@@ -158,6 +162,7 @@ edge_traces = []
 for u, v, d in H.edges(data=True):
   x0, y0 = pos[u]
   x1, y1 = pos[v]
+  # Copied from ChatGPT
   edge_traces.append(go.Scattergl(x=[x0, x1, None], y=[y0, y1, None], mode='lines',
                           line=dict(width=d['weight']*7.5, color='rgba(0,0,0,0.18)'),
                           hoverinfo='skip', showlegend=False))
@@ -187,14 +192,10 @@ node_trace = go.Scattergl(
     hoverinfo='text', text=texts
 )
 
+# Copied from ChatGPT
 fig = go.Figure(edge_traces +[node_trace])
 fig.update_layout(title='A Star Wars Similarity Map',
                   xaxis=dict(visible=False), yaxis=dict(visible=False),
                   plot_bgcolor='white', showlegend=False, height=900,
                   margin=dict(l=10,r=10,t=60,b=10))
 fig.write_html("visualize.html", include_plotlyjs='cdn', full_html=True)
-
-
-# Build an inverse index from the values in each row.
-
-
