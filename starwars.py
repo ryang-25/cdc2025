@@ -1,3 +1,4 @@
+import numpy as np
 import streamlit as st
 import pandas as pd
 import altair as alt
@@ -26,7 +27,7 @@ def persist_data(df, categories):
     st.session_state['df'] = df
     st.session_state['user_df'] = pd.DataFrame(columns=df.columns)
     st.session_state['categories'] = categories
-    st.session_state['options'] = [df[column].unique() for column in df.columns]
+    st.session_state['options'] = [np.sort(df[column].unique()) for column in df.columns]
 
 def get_user_preferences():
     # Custom HTML goes here
@@ -122,12 +123,12 @@ def bar_counts_streamlit(df: pd.DataFrame, col: str, title: str, user_choice: st
 
 def dashboard_page(df, prefs):
     st.set_page_config(layout="wide", page_title="Dashboard")
-
+    st.title("Your Results:")
     
     col1, col2, col3 = st.columns([4, 2, 4])
 
     with col1:
-        st.markdown("### Dataset Favorites :)")
+        st.subheader("Dataset Favorites :)")
         st.text("How you compared to our dataset!")
 
         # Reusable function for each category
@@ -148,7 +149,7 @@ def dashboard_page(df, prefs):
 
     
     with col3:
-        st.markdown("### User Favorites")
+        st.subheader("User Favorites")
         st.text('How you compared to our users!')
 
         # Reusable function for each category
@@ -171,6 +172,7 @@ def dashboard_page(df, prefs):
     st.text('You can also take a look at our similarity map below!')
 
     components.html(open('visualize.html', 'r').read(), height=800)
+    
 
 def main():
     if 'init' not in st.session_state:
