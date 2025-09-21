@@ -68,18 +68,24 @@ def bar_counts_streamlit(df: pd.DataFrame, col: str, title: str, user_choice: st
         st.altair_chart(chart, use_container_width=True)
 
 def dashboard_page(df, prefs):
-    st.markdown("<h1 style='text-align: left; color: #FF5733;'>Star Wars Favorites Dashboard</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style=' color: ##1f77b4;'>Star Wars Favorites Dashboard</h1>", unsafe_allow_html=True)
     
     # Reusable function for each category
+    graph_options = {
+        "Favorite Hero": "fav_hero",
+        "Favorite Villain": "fav_villain",
+        "Favorite Film": "fav_film",
+        "Favorite Soundtrack": "fav_soundtrack",
+        "Favorite Spaceship": "fav_spaceship",
+        "Favorite Planet": "fav_planet",
+        "Favorite Robot": "fav_robot"
+    }
 
-    # Use the function for each column
-    bar_counts_streamlit(df, "fav_hero", "Hero Choices", prefs.get("fav_hero"))
-    bar_counts_streamlit(df, "fav_villain", "Villain Choices", prefs.get("fav_villain"))
-    bar_counts_streamlit(df, "fav_film", "Film Choices", prefs.get("fav_film"))
-    bar_counts_streamlit(df, "fav_soundtrack", "Soundtrack Choices", prefs.get("fav_soundtrack"))
-    bar_counts_streamlit(df, "fav_spaceship", "Spaceship Choices", prefs.get("fav_spaceship"))
-    bar_counts_streamlit(df, "fav_planet", "Planet Choices", prefs.get("fav_planet"))
-    bar_counts_streamlit(df, "fav_robot", "Robot Choices", prefs.get("fav_robot"))
+    # Dropdown to select which graph to display
+    selected_graph = st.selectbox("Select a category to view:", list(graph_options.keys()))
+    col = graph_options[selected_graph]
+    bar_counts_streamlit(df, col, selected_graph, prefs.get(col))
+
 
 def main():
     df, categories = load_and_clean_data()
